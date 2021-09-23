@@ -12,16 +12,20 @@ from settings import *
 
 
 app = Flask(__name__)
-app.logger.setLevel(logging.DEBUG)
+app.logger.setLevel(LOGGING__LOG_LEVEL)
 api = Api(app)
 
-api.add_resource(IndexResource, '/')
-api.add_resource(ModelResource, '/model')
+api.add_resource(IndexResource, "/")
+api.add_resource(ModelResource, "/model")
 
-if __name__ == '__main__':
-    if DEBUG:        
-        app.run(host=HOST, port=PORT, debug=DEBUG)
+
+if __name__ == "__main__":
+    if SERVICE__DEBUG:
+        app.run(host=SERVICE__HOST, 
+                port=SERVICE__PORT, 
+                debug=SERVICE__DEBUG)
     else:
         serve(
-            app, host=HOST, port=PORT
+            app, host=SERVICE__HOST, 
+                 port=SERVICE__PORT
         )
