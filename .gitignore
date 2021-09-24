@@ -4,6 +4,7 @@ env/
 # Static files
 data/
 temp/
+artifacts/
 
 # Mac
 .DS_Store

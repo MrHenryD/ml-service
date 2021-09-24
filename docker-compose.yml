@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  registry-backend:
+    image: postgres:13-buster
+    hostname: postgres-registry-backend
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow
+      POSTGRES_DB: mlflow
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "mlflow"]
+      interval: 10s
+      retries: 3
+    restart: always
+
+  registry:
+    build:
+      context: ./registry
+    ports:
+      - "5000:5000"
+    environment:
+      BACKEND_STORE_URI: postgresql+psycopg2://mlflow:mlflow@postgres-registry-backend:5432/mlflow
+      DEFAULT_ARTIFACT_ROOT: file:///mlflow/artifacts
+    depends_on:
+      registry-backend:
+        condition: service_healthy
+    restart: always
