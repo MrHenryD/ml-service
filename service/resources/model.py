@@ -12,7 +12,7 @@ class ModelResource(Resource):
     @staticmethod
     def _predict(age: int, sqft: int, bedrooms: int, washrooms: int, country: Literal["US", "MX", "CA"], **kwargs) -> Dict:
         return {
-            "price": (bedrooms + washrooms) * 1000,
+            "price": (int(bedrooms) + int(washrooms)) * 120609,
             "sqft": sqft,
             "bedrooms": bedrooms,
             "washrooms": washrooms,

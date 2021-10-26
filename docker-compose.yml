@@ -26,3 +26,14 @@ services:
       registry-backend:
         condition: service_healthy
     restart: always
+
+  app:
+    build:
+      context: ./service
+    ports:
+      - "8080:8080"
+    depends_on: 
+      - registry
+    volumes:
+      - ./service:/opt/mlservice
+    restart: always
