@@ -21,7 +21,7 @@ services:
       - "5000:5000"
     environment:
       BACKEND_STORE_URI: postgresql+psycopg2://mlflow:mlflow@postgres-registry-backend:5432/mlflow
-      DEFAULT_ARTIFACT_ROOT: file:///mlflow/artifacts
+      DEFAULT_ARTIFACT_ROOT: file:///tmp
     depends_on:
       registry-backend:
         condition: service_healthy
@@ -36,4 +36,15 @@ services:
       - registry
     volumes:
       - ./service:/opt/mlservice
+    restart: always
+
+  notebook:
+    build:
+      context: ./notebook
+    ports:
+      - "8888:8888"
+    depends_on:
+      - registry
+    volumes:
+      - ./notebook:/home/jovyan/work
     restart: always
